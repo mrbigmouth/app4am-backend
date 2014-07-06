@@ -1,0 +1,26 @@
+<head>
+  <title>新聞媒怠誌-後臺系統</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <h1>未分類的新聞</h1>
+    <hr />
+    <div class="left">
+      {{> unAssignNewsList}}
+    </div>
+    <div class="right">
+      {{> topicList}}
+    </div>
+  </div>
+  <div class="wrapper">
+    <h1>已分類的新聞</h1>
+    <hr />
+    <div class="left">
+      {{> searchNews}}
+    </div>
+    <div class="right">
+      {{> topicList}}
+    </div>
+  </div>
+</body>

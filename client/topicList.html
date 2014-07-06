@@ -1,0 +1,12 @@
+<template name="topicList">
+  <div class="topicList">
+    {{#each topic}}
+      <div class="eachTopic">
+        <input type="checkbox" value="{{this._id}}" />
+        {{#each this.topicTagSet}}
+          <span class="eachTag">{{this}}</span>
+        {{/each}}
+      </div>
+    {{/each}}
+  </div>
+</template>

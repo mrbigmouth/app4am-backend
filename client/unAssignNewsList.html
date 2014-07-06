@@ -1,0 +1,13 @@
+<template name="unAssignNewsList">
+  <div class="unAssignNewsList">
+    {{#each news}}
+      {{> eachNews}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="eachNews">
+  <div class="eachNews" data-id="{{this._id}}">
+    {{this.title}}
+  </div>
+</template>
