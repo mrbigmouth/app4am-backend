@@ -16,5 +16,5 @@ DB.news.allow(
 
 
 Meteor.publish('unAssignNews', function() {
-  return DB.news.find({'topicId' : {'$size' : 0}});
+  return DB.news.find({'topicId' : null});
 });
