@@ -3,7 +3,7 @@ Meteor.subscribe('unAssignNews')
 Template.unAssignNewsList.helpers(
   {'news' :
       function() {
-        return DB.news.find({'topicId' : {'$size' : 0}}, {'sort' : {'newsTime' : -1} });
+        return DB.news.find({'topicId' : null}, {'sort' : {'newsTime' : -1} });
       }
   }
 )
