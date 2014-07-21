@@ -1,4 +1,4 @@
-DB.news.allow(
+DB.topic.allow(
   {'insert' :
       function() {
         return true;
