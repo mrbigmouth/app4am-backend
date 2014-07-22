@@ -9,8 +9,9 @@ Template.topicList.helpers(
 )
 
 Template.topicList.events(
-  {'click' :
+  {'click btn-info' :
       function(e, ins) {
+        console.log('!!!');
       }
   }
 )
