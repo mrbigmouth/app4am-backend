@@ -7,7 +7,12 @@
 </template>
 
 <template name="eachNews">
-  <div class="eachNews" data-id="{{this._id._str}}">
-    {{this.title}}
+  <div class="eachNews">
+    <div>
+      <span class="title" title="{{this.title}}">{{this.title}}</span>
+      <a href="{{this.sourceUrl}}" target="_blank" class="link">連結</a>
+    </div>
+    <span class="topic">歸屬分類：{{list this.topicId}}</span>
+    <span class="time">修改時間：<time>{{showDate this.updateTime}}</time></span>
   </div>
 </template>

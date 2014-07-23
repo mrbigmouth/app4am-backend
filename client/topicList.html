@@ -1,13 +1,21 @@
 <template name="topicList">
   <div class="topicList">
-    <button class="btn btn-info pull-right">新增類別</button>
+    <div class="buttons">
+      <button>新增類別</button>
+    </div>
     {{#each topic}}
-      <div class="eachTopic">
-        <input type="checkbox" value="{{this._id}}" />
-        {{#each this.topicTagSet}}
-          <span class="eachTag">{{this}}</span>
-        {{/each}}
-      </div>
+      {{> eachTopic}}
     {{/each}}
+  </div>
+</template>
+
+<template name="eachTopic">
+  <div class="eachTopic id{{this._id._str}}">
+    <div>
+      <span class="name" title="{{this.name}}">{{this.name}}</span>
+      <a href="javascript:" class="edit">修改</a>
+    </div>
+    <span class="tags" title="{{list this.topicTagSet}}">關鍵字：{{list this.topicTagSet}}</span>
+    <span class="time">修改時間：<time>{{showDate this.latestTime}}</time></span>
   </div>
 </template>

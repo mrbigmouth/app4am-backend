@@ -4,7 +4,8 @@ DB.news.allow(
         return false;
       }
   ,'update' :
-      function() {
+      function(userId, doc) {
+        DB.news.update(doc._id, {'$set' : {'updateTime' : new Date()}});
         return true;
       }
   ,'remove' :
@@ -16,5 +17,5 @@ DB.news.allow(
 
 
 Meteor.publish('unAssignNews', function() {
-  return DB.news.find({'topicId' : null});
+  return DB.news.find({});
 });

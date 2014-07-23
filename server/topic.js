@@ -1,10 +1,12 @@
 DB.topic.allow(
   {'insert' :
-      function() {
+      function(userId, doc) {
+        doc.latestTime = new Date();
         return true;
       }
   ,'update' :
-      function() {
+      function(userId, doc) {
+        doc.latestTime = new Date();
         return true;
       }
   ,'remove' :
@@ -12,7 +14,7 @@ DB.topic.allow(
         return true;
       }
   }
-)
+);
 
 
 Meteor.publish('topic', function() {

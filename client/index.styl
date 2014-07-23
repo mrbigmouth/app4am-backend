@@ -1,10 +1,6 @@
-@import 'nib';
-
 div.wrapper {
   margin: 20px auto 20px auto;
   width: 800px;
-  height: 400px;
-  overflow: auto;
 
   h1 {
     text-align: left;
@@ -12,9 +8,12 @@ div.wrapper {
   }
 
   div.left, div.right {
-    width: 50%;
+    width: 390px;
     margin: 0;
     padding: 0;
+  }
+  div.left {
+    float: left;
   }
   div.right {
     float: right;
@@ -22,13 +21,90 @@ div.wrapper {
 
   div.unAssignNewsList {
     div.eachNews {
-      padding: 1px;
-      margin: 1px;
-      border: none;
       cursor: pointer;
+      border: 1px dashed #DDDDDD;
+      margin-top: 3px;
+
+      span.title {
+        display: inline-block;
+        width: 340px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow : ellipsis;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      a.link {
+        display: inline-block;
+        width: 40px;
+        float: right;
+      }
+
+      span.topic, span.time {
+        font-size: 12px;
+      }
+      span.topic {
+        display: inline-block;
+        width: 230px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow : ellipsis;
+      }
+      span.time {
+        float: right;
+      }
+
     }
+
     div.eachNews.selected {
-      border: 1px black dashed;
+      border: 1px solid #AAAAAA;
+    }
+  }
+
+  div.topicList {
+    div.buttons {
+      text-align: right;
+    }
+
+    div.eachTopic {
+      cursor: pointer;
+      border: 1px dashed #DDDDDD;
+      margin-top: 3px;
+
+      span.name {
+        display: inline-block;
+        width: 340px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow : ellipsis;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      a.edit {
+        display: inline-block;
+        width: 40px;
+        float: right;
+      }
+
+      span.tags, span.time {
+        font-size: 12px;
+      }
+      span.tags {
+        display: inline-block;
+        width: 230px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow : ellipsis;
+      }
+      span.time {
+        float: right;
+      }
+    }
+
+    div.eachTopic.selected {
+      border: 1px solid #AAAAAA;
     }
   }
 }
