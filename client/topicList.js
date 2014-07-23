@@ -3,7 +3,7 @@ Meteor.subscribe('topic');
 Template.topicList.helpers(
   {'topic'  :
       function() {
-        return DB.topic.find({}, {'sort' : {'latestTime' : -1} });
+        return DB.topic.find({}, {'sort' : {'latestTime' : 1} });
       }
   }
 );
@@ -70,7 +70,7 @@ Template.eachTopic.events(
               topicId.push(thisId);
             }
             else {
-              topicId = [ thisId.equals ];
+              topicId = [ thisId ];
             }
             DB.news.update(selectedNews, {$set : {'topicId' : topicId}});
           }

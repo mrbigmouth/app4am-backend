@@ -52,7 +52,9 @@ Template.eachNews.events(
           $topic = $wrapper.find('div.topicList');
           $topic.find('div.eachTopic').removeClass('selected');
           _.each(ins.data.topicId, function(id) {
-            $topic.find('div.eachTopic.id' + id._str).addClass('selected');
+            if (id) {
+              $topic.find('div.eachTopic.id' + id._str).addClass('selected');
+            }
           });
         }
 
