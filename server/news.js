@@ -17,5 +17,5 @@ DB.news.allow(
 
 
 Meteor.publish('unAssignNews', function() {
-  return DB.news.find({});
+  return DB.news.find({},{'limit' : 10});
 });
