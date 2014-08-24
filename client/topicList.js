@@ -9,6 +9,7 @@ Template.topicList.helpers(
 );
 
 Template.topicList.events(
+  //新增分類
   {'click button' :
       function(e, ins) {
         var prompt = window.prompt
@@ -25,6 +26,8 @@ Template.topicList.events(
           return tags = '';
         }
         doc.topicTagSet = tags.split(',');
+        doc.sort = null;
+        doc.score = null;
         Meteor.call('dbInsert', 'topic', doc);
       }
   }
@@ -43,6 +46,7 @@ Template.eachTopic.helpers(
 );
 
 Template.eachTopic.events(
+  //設定新聞分類
   {'click' :
       function(e, ins) {
         var $this        = $(ins.firstNode)
