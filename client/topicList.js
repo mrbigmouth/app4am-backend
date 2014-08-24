@@ -1,9 +1,13 @@
 Meteor.subscribe('topic');
 
 Template.topicList.helpers(
-  {'topic'  :
+  {'sortedTopic'  :
       function() {
-        return DB.topic.find({}, {'sort' : {'sort' : 1} });
+        return DB.topic.find({'sort' : {'$ne' : null}}, {'sort' : {'sort' : 1} });
+      }
+  ,'unSortTopic'  :
+      function() {
+        return DB.topic.find({'sort' : null}, {'sort' : {'sort' : 1} });
       }
   }
 );
@@ -51,29 +55,34 @@ Template.eachTopic.events(
           , news
           , topicId
           ;
+
+        if (! selectedNews) {
+          return true;
+        }
+        news = DB.news.findOne(selectedNews);
+        if (! news) {
+          return true;
+        }
+
         if ($this.hasClass('selected')) {
-          if (selectedNews && (news = DB.news.findOne(selectedNews)) ) {
-            if (_.isArray(news.topicId)) {
-              topicId = _.reject(news.topicId, function(d) { return thisId.equals(d); });
-            }
-            else {
-              topicId = [];
-            }
-            DB.news.update(selectedNews, {$set : {'topicId' : topicId}});
+          if (_.isArray(news.topicId)) {
+            topicId = _.reject(news.topicId, function(d) { return thisId.equals(d); });
           }
+          else {
+            topicId = [];
+          }
+          DB.news.update(selectedNews, {$set : {'topicId' : topicId}});
           $this.removeClass('selected');
         }
         else {
-          if (selectedNews && (news = DB.news.findOne(selectedNews)) ) {
-            if (_.isArray(news.topicId)) {
-              topicId = _.reject(news.topicId, function(d) { return thisId.equals(d); });
-              topicId.push(thisId);
-            }
-            else {
-              topicId = [ thisId ];
-            }
-            DB.news.update(selectedNews, {$set : {'topicId' : topicId}});
+          if (_.isArray(news.topicId)) {
+            topicId = _.reject(news.topicId, function(d) { return thisId.equals(d); });
+            topicId.push(thisId);
           }
+          else {
+            topicId = [ thisId ];
+          }
+          DB.news.update(selectedNews, {$set : {'topicId' : topicId}});
           $this.addClass('selected');
         }
       }

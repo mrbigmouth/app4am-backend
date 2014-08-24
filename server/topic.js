@@ -3,8 +3,7 @@ DB.topic.allow(
       function(userId, doc) {
         doc.latestTime = new Date();
         doc.score = null;
-        doc.sort = 0;
-        DB.topic.update({'sort' : {'$inc' : 1}});
+        doc.sort = null;
         return true;
       }
   ,'update' :

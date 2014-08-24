@@ -3,7 +3,10 @@
     <div class="buttons">
       <button>新增類別</button>
     </div>
-    {{#each topic}}
+    {{#each sortedTopic showed=true}}
+      {{> eachTopic}}
+    {{/each}}
+    {{#each unSortTopic showed=false}}
       {{> eachTopic}}
     {{/each}}
   </div>
@@ -13,7 +16,14 @@
   <div class="eachTopic id{{this._id._str}}">
     <div>
       <span class="name" title="{{this.name}}">{{this.name}}</span>
-      <a href="javascript:" class="edit">修改</a>
+      <a href="javascript:;" class="edit">修改</a>
+      <a href="javascript:;" class="{{#if showed}}isShow show{{else}}isShow notShow{{/if}}">
+        {{#if showed}}
+          隱藏
+        {{else}}
+          發布
+        {{/if}}
+      </a>
     </div>
     <span class="tags" title="{{list this.topicTagSet}}">關鍵字：{{list this.topicTagSet}}</span>
     <span class="time">修改時間：<time>{{showDate this.latestTime}}</time></span>
