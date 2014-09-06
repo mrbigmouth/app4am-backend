@@ -1,5 +1,8 @@
 <template name="unAssignNewsList">
   <div class="unAssignNewsList">
+    <div class="buttons">
+      新聞日期：<input type="date" name="newsDate" />
+    </div>
     {{#each news}}
       {{> eachNews}}
     {{/each}}
@@ -8,11 +11,12 @@
 
 <template name="eachNews">
   <div class="eachNews">
-    <div>
-      <span class="title" title="{{this.title}}">{{this.title}}</span>
-      <a href="{{this.sourceUrl}}" target="_blank" class="link">連結</a>
+    <div class="title" title="{{this.title}}">{{this.title}}</div>
+    <div class="topic">歸屬分類：{{list this.topicId}}</div>
+    <div class="data">
+      <span class="newsPaper">{{newsPaperName this.newspaper}}</span>
+      <span class="link"><a href="{{this.sourceUrl}}" target="_blank" class="link">連結</a></span>
+      <span class="time">最後修改時間：<time>{{showDate this.updateTime}}</time></span>
     </div>
-    <span class="topic">歸屬分類：{{list this.topicId}}</span>
-    <span class="time">修改時間：<time>{{showDate this.updateTime}}</time></span>
   </div>
 </template>

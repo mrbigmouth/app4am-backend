@@ -1,7 +1,8 @@
 div.wrapper {
-  margin: 20px auto 20px auto;
-  width: 820px;
-  height: 400px;
+  margin: 10px;
+  width: 100%;
+  height: 100vh;
+  font-size: 14px;
 
   h1 {
     text-align: left;
@@ -9,19 +10,21 @@ div.wrapper {
   }
 
   div.left, div.right {
-    width: 390px;
+    width:  50%;
+    height: 100%;
     margin: 0;
     padding: 0;
+    overflow: auto;
   }
   div.left {
     float: left;
-    height: 100%;
-    overflow: auto;
   }
   div.right {
     float: right;
-    height: 100%;
-    overflow: auto;
+  }
+
+  div.buttons {
+    text-align: right;
   }
 
   div.unAssignNewsList {
@@ -30,9 +33,7 @@ div.wrapper {
       border: 1px dashed #DDDDDD;
       margin-top: 3px;
 
-      span.title {
-        display: inline-block;
-        width: 340px;
+      div.title {
         white-space: nowrap;
         overflow: hidden;
         text-overflow : ellipsis;
@@ -40,38 +41,32 @@ div.wrapper {
         font-size: 16px;
       }
 
-      a.link {
-        display: inline-block;
-        width: 40px;
-        float: right;
-      }
-
-      span.topic, span.time {
-        font-size: 12px;
-      }
-      span.topic {
-        display: inline-block;
-        width: 230px;
+      div.topic {
         white-space: nowrap;
         overflow: hidden;
         text-overflow : ellipsis;
+        font-size: 12px;
       }
-      span.time {
-        float: right;
-      }
+      div.data {
+        display:none;
 
+        span {
+          display: inline-block;
+          margin: 0 5px 0 0;
+        }
+      }
     }
 
     div.eachNews.selected {
       border: 1px solid #AAAAAA;
+
+      div.data {
+        display: block;
+      }
     }
   }
 
   div.topicList {
-    div.buttons {
-      text-align: right;
-    }
-
     div.eachTopic {
       cursor: pointer;
       border: 1px dashed #DDDDDD;

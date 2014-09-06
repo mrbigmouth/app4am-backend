@@ -20,7 +20,7 @@ Template.topicList.events(
           , tags
           ;
 
-        doc.name = prompt('請輸入分類名稱：');
+        doc.name = prompt('請輸入議題名稱：');
         if (! doc.name) {
           return false;
         }
@@ -95,7 +95,7 @@ Template.eachTopic.events(
           , tags
           ;
 
-        doc.name = prompt('請修改分類名稱：', ins.data.name);
+        doc.name = prompt('請修改議題名稱：', ins.data.name);
         if (! doc.name) {
           return false;
         }

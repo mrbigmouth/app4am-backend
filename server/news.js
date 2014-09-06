@@ -16,6 +16,12 @@ DB.news.allow(
 )
 
 
-Meteor.publish('unAssignNews', function() {
-  return DB.news.find({},{'limit' : 50});
+Meteor.publish('unAssignNews', function(date) {
+  var filter =
+      {"newsTime" :
+          {"$gte" : new Date( date.setHours(0,0,0,0) )
+          ,"$lte" : new Date( date.setHours(23,59,59,999) )
+          }
+      }
+  return DB.news.find(filter);
 });
