@@ -1,23 +1,6 @@
-var padding  =
-      function(i) {
-        if (i < 10) {
-          return "0" + i;
-        }
-        return "" + i;
-      }
-  , showDate =
-      function(date) {
-        return date.getFullYear() + "-" + padding(date.getMonth() + 1) + "-" + padding(date.getDate());
-      }
-  , showTime =
-      function(date) {
-        return padding(date.getHours()) + ":" + padding(date.getMinutes()) + ":" + padding(date.getSeconds());
-      }
-  ;
-
 Template.unAssignNewsList.rendered =
     function() {
-      this.find("input[name=\"newsDate\"]").value = showDate( new Date() );
+      this.find("input[name=\"newsDate\"]").value = ( new Date() ).format("yyyy-MM-dd");
     };
 
 var NEWSPAPER =
@@ -62,7 +45,7 @@ Template.eachNews.helpers(
       }
   ,"showDate" :
       function(date) {
-        return showDate(date) + " " + showTime(date);
+        return date.format("yyyy/MM/dd HH:mm");
       }
   ,"newsPaperName" :
       function(newsPaper) {
@@ -100,7 +83,7 @@ Template.eachNews.events(
           $topic.find("div.eachTopic").removeClass("selected");
           _.each(ins.data.topicId, function(id) {
             if (id) {
-              $topic.find("div.eachTopic.id" + id._str).addClass("selected");
+              $topic.find("div.eachTopic[data-id=\"" + id._str + "\"]").addClass("selected");
             }
           });
         }
