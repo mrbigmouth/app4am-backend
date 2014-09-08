@@ -14,15 +14,21 @@ var NEWSPAPER =
 Template.unAssignNewsList.helpers(
   {"news" :
       function() {
-        var date   = nowDate.get()
-          , filter =
+        var date    = nowDate.get()
+          , filter  =
               {"newsTime" :
                   {"$gte" : date.getDayStart()
                   ,"$lte" : date.getDayEnd()
                   }
               }
+          , options = 
+              {"sort"     :
+                {"_id"        : -1
+                }
+              }
           ;
-        return DB.news.find(filter, {"sort" : {"newsTime" : -1} });
+
+        return DB.news.find(filter, options);
       }
   }
 );
@@ -57,7 +63,7 @@ Template.eachNews.helpers(
         return NEWSPAPER[newsPaper];
       }
   }
-)
+);
 Template.eachNews.events(
   //選擇新聞
   {"click" :
@@ -95,4 +101,4 @@ Template.eachNews.events(
 
       }
   }
-)
+);
