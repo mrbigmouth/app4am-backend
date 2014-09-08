@@ -1,10 +1,34 @@
 <template name="analysis">
   <div class="wrapper">
-    <h1>「{{name}}」議題分析</h1>
-    <hr />
-    <div class="svg_wrapper">
-    </div>
-    <div class="svg_wrapper">
+    <div class="analysis">
+      <h1>
+        「{{name}}」議題分析
+        <a href="/" style="float:right;">回首頁</a>
+      </h1>
+      <hr />
+      <div id="analysisLineChart" class="svg_wrapper" title="點擊各線段時間點可看該時間段新聞比例分析">
+      </div>
+      <div id="analysisPieChart" class="svg_wrapper">
+      </div>
+      {{drawLineChart this._id}}
+      <div class="allNews">
+        <h1>議題新聞列表</h1>
+        <hr />
+        {{#each news this._id}}
+          {{> eachNews_Analysis}}
+        {{/each}}
+      </div>
     </div>
   </div>
+</template>
+
+
+<template name="eachNews_Analysis">
+  <div class="eachNews">
+    <h3>{{this.title}}</h3>
+    <span class="newsPaper">{{newsPaperName this.newspaper}}</span>
+    <span class="time">新聞發布時間：<time>{{showDate this.newsTime}}</time></span>
+    <span class="link"><a href="{{this.sourceUrl}}" target="_blank" class="link">原文連結</a></span>
+  </div>
+  <hr />
 </template>
