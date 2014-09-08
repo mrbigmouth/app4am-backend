@@ -10,4 +10,5 @@ accounts-google
 accounts-ui
 stylus
 iron:router
+reactive-var
 

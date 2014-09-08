@@ -8,11 +8,13 @@ var NEWSPAPER =
       ,"Apple"     : "蘋果日報"
       ,"UDN"       : "聯合新聞網"
       ,"ChinaTime" : "中國時報"
-      };
+      }
+  , nowDate   = new ReactiveVar(new Date())
+  ;
 Template.unAssignNewsList.helpers(
   {"news" :
       function() {
-        var date   = Session.get("newsDate") || new Date()
+        var date   = nowDate.get()
           , filter =
               {"newsTime" :
                   {"$gte" : new Date( date.setHours(0,0,0,0) )
@@ -29,7 +31,7 @@ Template.unAssignNewsList.events(
       function(e) {
         var date = new Date( Date.parse(e.currentTarget.value) );
         Meteor.subscribe("unAssignNews", date);
-        Session.set("newsDate", date);
+        nowDate.set(date);
       }
   }
 );
@@ -37,10 +39,13 @@ Template.unAssignNewsList.events(
 Template.eachNews.helpers(
   {"list" :
       function(list) {
-        return _.map(list, function(id) {
-          var topic = DB.topic.findOne(id);
-          return topic ? topic.name : "";
-        }).join("、");
+        var result =
+             _.map(list, function(id) {
+                var topic = DB.topic.findOne(id);
+                return topic ? topic.name : "";
+            });
+        result = _.compact(result);
+        return result.join("、");
 
       }
   ,"showDate" :
