@@ -17,8 +17,8 @@ Template.unAssignNewsList.helpers(
         var date   = nowDate.get()
           , filter =
               {"newsTime" :
-                  {"$gte" : new Date( date.setHours(0,0,0,0) )
-                  ,"$lte" : new Date( date.setHours(23,59,59,999) )
+                  {"$gte" : date.getDayStart()
+                  ,"$lte" : date.getDayEnd()
                   }
               }
           ;

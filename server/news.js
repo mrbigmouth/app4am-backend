@@ -19,9 +19,17 @@ DB.news.allow(
 Meteor.publish('unAssignNews', function(date) {
   var filter =
       {"newsTime" :
-          {"$gte" : new Date( date.setHours(0,0,0,0) )
-          ,"$lte" : new Date( date.setHours(23,59,59,999) )
+          {"$gte" : date.getDayStart()
+          ,"$lte" : date.getDayEnd()
           }
+      }
+  return DB.news.find(filter);
+});
+
+Meteor.publish('newsByTopic', function(idStr) {
+  var topicId = new Mongo.ObjectID(idStr)
+    , filter  =
+      {"topicId" : topicId
       }
   return DB.news.find(filter);
 });
