@@ -3,6 +3,7 @@ var NEWSPAPER =
       ,"Apple"     : "蘋果日報"
       ,"UDN"       : "聯合新聞網"
       ,"ChinaTime" : "中國時報"
+      ,"total"     : "總報導"
       }
   , drawLineChart = _.debounce(
       function(news, area) {
@@ -14,7 +15,6 @@ var NEWSPAPER =
           , maxNews
           ;
 
-        console.log("drawing...");
         _.each(
           news
         , function(d) {
@@ -57,37 +57,39 @@ var NEWSPAPER =
         maxNews = _.max(total);
 
         //與邊欄間距固定
-        var left   = 40
-          , right  = 40
-          , top    = 20
-          , bottom = 20
-          //寬度等於新聞持續天數x40
-          , width  = days * 40 + 200 + left + right
+        var left      = 40
+          , right     = 40
+          , top       = 20
+          , bottom    = 20
+          , dayWidth  = 50
+          //寬度等於新聞持續天數
+          , width     = days * dayWidth + 200 + left + right
           //高度視每日最高新聞數而定
-          , height = (maxNews + 5) * 2 + top + bottom
-          , x      = 
+          , height    = (maxNews + 5) * 2 + top + bottom
+          , x         = 
               d3.scale
                 .linear()
                 .domain( [0, days + 1] )
                 .range( [0, width] )
-          , y      =
+          , y         =
               d3.scale
                 .linear()
                 .domain( [0, maxNews] )
                 .range( [height, 0] )
-          , xAxis  =
+          , xAxis     =
               d3.svg
                 .axis()
                   .scale(x)
                   .ticks( days )
+                  .tickFormat( function(d) { return d ? dates[ d - 1 ] : ""; } )
                   .orient("bottom")
-          , yAxis  =
+          , yAxis     =
               d3.svg
                 .axis()
                 .scale(y)
                 .ticks( Math.ceil(maxNews / 5) )
                 .orient("left")
-          , line   = 
+          , line      = 
               d3.svg
                 .line()
                 .x(
@@ -128,6 +130,7 @@ var NEWSPAPER =
               .text("新聞數量");
 
 
+        var count = 0;
         //畫線
         _.each(
           groupNews
@@ -147,6 +150,12 @@ var NEWSPAPER =
             svg.append("path")
                .attr("class", "line " + newspaper)
                .attr("d", line(svgData));
+            svg.append("text")
+               .attr("class", "text " + newspaper)
+               .attr("x", width - dayWidth)
+               .attr("y", count * 20)
+               .text( NEWSPAPER[ newspaper ] );
+            count += 1;
           }
         );
       }
