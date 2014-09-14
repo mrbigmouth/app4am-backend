@@ -1,22 +1,24 @@
 DB.news.allow(
-  {'insert' :
+  {"insert" :
       function() {
         return false;
       }
-  ,'update' :
+  ,"update" :
       function(userId, doc) {
-        DB.news.update(doc._id, {'$set' : {'updateTime' : new Date()}});
-        return true;
+        DB.news.update(doc._id, {"$set" : {"updateTime" : new Date()}});
+        //return true;
+        return false;
       }
-  ,'remove' :
+  ,"remove" :
       function() {
-        return true;
+        //return true;
+        return false;
       }
   }
 )
 
 
-Meteor.publish('unAssignNews', function(date) {
+Meteor.publish("unAssignNews", function(date) {
   var filter =
       {"newsTime" :
           {"$gte" : date.getDayStart()
@@ -26,10 +28,25 @@ Meteor.publish('unAssignNews', function(date) {
   return DB.news.find(filter);
 });
 
-Meteor.publish('newsByTopic', function(idStr) {
+Meteor.publish("newsByTopic", function(idStr) {
   var topicId = new Mongo.ObjectID(idStr)
     , filter  =
       {"topicId" : topicId
       }
+  return DB.news.find(filter);
+});
+
+Meteor.publish("newsByNewspaperDate", function(newspaper, date) {
+  var filter = {};
+  if (newspaper) {
+    filter.newspaper = newspaper;
+  }
+  
+  console.log(newspaper);
+  filter.newsTime =
+    {"$gte" : date.getDayStart()
+    ,"$lte" : date.getDayEnd()
+    }
+
   return DB.news.find(filter);
 });

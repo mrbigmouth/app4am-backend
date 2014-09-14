@@ -4,6 +4,10 @@ div.wrapper {
   height: 90vh;
   font-size: 14px;
 
+  hr {
+    clear: both;
+  }
+
   h1 {
     text-align: left;
     font-size: 20px;
@@ -115,8 +119,9 @@ div.wrapper {
   }
 
   .svg_wrapper {
-    width: 100%;
+    width: 50%;
     overflow: auto;
+    float: left;
   }
 }
 
@@ -137,36 +142,52 @@ div.wrapper {
   .line.total {
     stroke: #4682b4;
   }
-  .text.total {
+  .text.total, .point.total {
     fill: #4682b4;
   }
 
   .line.Apple {
     stroke: #FF0000;
   }
-  .text.Apple {
+  .text.Apple, .point.Apple {
     fill: #FF0000;
   }
 
   .line.LTN {
     stroke: #00FF00;
   }
-  .text.LTN {
+  .text.LTN, .point.LTN {
     fill: #00FF00;
   }
 
   .line.ChinaTime {
     stroke: #0000FF;
   }
-  .text.ChinaTime {
+  .text.ChinaTime, .point.ChinaTime {
     fill: #0000FF;
   }
 
   .line.UDN {
     stroke: #00FFFF;
   }
-  .text.UDN {
+  .text.UDN, .point.UDN {
     fill: #00FFFF;
   }
 
+  .point {
+    cursor: pointer;
+  }
+
+  .tips {
+    rect {
+      border: 1px solid black;
+    }
+    text {
+      stroke: #000000;
+    }
+  }
+
+  .arc path {
+    stroke: #FFFFFF;
+  }
 }

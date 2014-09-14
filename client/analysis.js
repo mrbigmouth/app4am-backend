@@ -1,10 +1,16 @@
-var NEWSPAPER =
+var NEWSPAPER     =
       {"LTN"       : "自由時報"
       ,"Apple"     : "蘋果日報"
       ,"UDN"       : "聯合新聞網"
       ,"ChinaTime" : "中國時報"
       ,"total"     : "總報導"
       }
+  , getTopic      = _.memoize(
+        function(hexId) {
+          return DB.topic.findOne( new Mongo.ObjectID(hexId + "") );
+        }
+      )
+  , pieTracker
   , drawLineChart = _.debounce(
       function(news, area) {
         //計算出議題新聞的最早與最晚時間
@@ -104,7 +110,7 @@ var NEWSPAPER =
                 )
           ;
         //製造svg
-        svg =
+        var svg =
           d3.select(area)
             .append("svg")
               .attr("width",  width + left + right)
@@ -129,9 +135,8 @@ var NEWSPAPER =
               .style("text-anchor", "end")
               .text("新聞數量");
 
-
         var count = 0;
-        //畫線
+        //對各別新聞的數據作處理
         _.each(
           groupNews
         , function(dateNews, newspaper) {
@@ -146,22 +151,147 @@ var NEWSPAPER =
                       };
                     }
                   )
+              , point
               ;
+            //畫線
             svg.append("path")
                .attr("class", "line " + newspaper)
                .attr("d", line(svgData));
+
+            //上說明文字
             svg.append("text")
                .attr("class", "text " + newspaper)
                .attr("x", width - dayWidth)
                .attr("y", count * 20)
                .text( NEWSPAPER[ newspaper ] );
             count += 1;
+
+            //每日轉折處加點
+            point = 
+              svg.selectAll("circle." + newspaper)
+                .data(svgData)
+                .enter()
+                .append("g")
+                .append("circle")
+                .attr("class", "point " + newspaper)
+                .attr("cx", line.x())
+                .attr("cy", line.y())
+                .attr("r", 3.5)
+                //滑鼠移過時變大並顯示說明文字
+                .on("mouseover", function() {
+                  var dThis = d3.select(this)
+                    , data  = dThis.data()
+                    ;
+                  dThis.transition().duration(500).attr("r", 8);
+                })
+                .on("mouseout", function() {
+                  d3.select(this).transition().duration(500).attr("r", 3.5);
+                })
+                .on("click", function() {
+                  var day  = d3.select(this).data()[0].date
+                    , date = new Date( Date.parse( dates[ day - 1 ] ) )
+                    ;
+
+
+                  $("#analysisPieChart").empty().html("<div style=\"text-align:center;margin-top:100px;font-size:22px;\">載入中。。。</div>");
+                  Meteor.subscribe("newsByNewspaperDate", newspaper === "total" ? "" : newspaper, date);
+                  if (pieTracker) {
+                    pieTracker.stop();
+                  }
+                  pieTracker = Tracker.autorun(
+                    function() {
+                      var filter = {};
+                      if (newspaper !== "total") {
+                        filter.newspaper = newspaper
+                      }
+                      filter.newsTime =
+                          {"$gte" : date.getDayStart()
+                          ,"$lte" : date.getDayEnd()
+                          };
+                      drawPieChart(newspaper, date, DB.news.find(filter));
+                    }
+                  );
+                });
           }
         );
       }
     , 1000
     )
+  , drawPieChart  = _.debounce(
+      function(newspaper, date, cursor) {
+        var left      = 40
+          , right     = 40
+          , top       = 20
+          , bottom    = 20
+          , width     = 400
+          , height    = 400
+          , radius    = Math.min(width, height) / 2
+          , color     =
+              d3.scale.ordinal()
+                .range(
+                  ["#1f77b4"
+                  ,"#ff7f0e"
+                  ,"#2ca02c"
+                  ,"#d62728"
+                  ,"#9467bd"
+                  ,"#8c564b"
+                  ,"#e377c2"
+                  ,"#7f7f7f"
+                  ,"#bcbd22"
+                  ,"#17becf"
+                  ]
+                )
+          , arc       = d3.svg.arc().outerRadius(radius - 10).innerRadius(0)
+          , pie       = d3.layout.pie().sort(null).value(function(d) { return d.number; })
+          , data      = {}
+          , svgData
+          , svg
+          ;
 
+
+        cursor.forEach(
+          function(doc) {
+            var topic     = doc.topicId && doc.topicId.length ? getTopic( doc.topicId[0] ) : null
+              , topicName = topic ? topic.name : "其他新聞"
+              ;
+
+            if (data[ topicName ]) {
+              data[ topicName ] += 1;
+            }
+            else {
+              data[ topicName ] = 1;
+            }
+          }
+        );
+
+        svgData = _.map(data, function(number, topic) { return {"topic" : topic, "number" : number}; });
+        $("#analysisPieChart").empty();
+        svg =
+            d3.select("#analysisPieChart").append("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .append("g")
+              .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+        pie = pie(svgData);
+        _.each(
+          svgData
+        , function(data, index, svgData) {
+            var g = svg.selectAll(".arc").data(pie).enter().append("g").attr("class", "arc");
+
+            g.append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return color(d.data.topic); });
+
+            g.append("text")
+              .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .style("text-anchor", "middle")
+              .text(function(d) { return d.data.topic + " " + d.data.number; });
+          }
+        );
+      }
+    , 1000
+    )
   ;
 Template.analysis.helpers(
   {"svgDataCompute" :
