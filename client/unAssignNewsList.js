@@ -54,7 +54,7 @@ Template.unAssignNewsList.events(
               {"$or" :
                   [{"title"   : new RegExp(text)}
                   ,{"content" : new RegExp(text)}
-                  }
+                  ]
               }
           ;
 

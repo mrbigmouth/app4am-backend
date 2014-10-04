@@ -40,7 +40,7 @@ Meteor.publish("searchNews", function(text) {
         {"$or" :
             [{"title"   : new RegExp(text)}
             ,{"content" : new RegExp(text)}
-            }
+            ]
         }
     , options =
         {"fields" :
