@@ -28,8 +28,6 @@ Meteor.publish("unAssignNews", function(date, text) {
     , reg
     ;
 
-  console.log("date", date);
-  console.log("text", text);
   if (date) {
     filter.newsTime =
         {"$gte"     : date.getDayStart()
