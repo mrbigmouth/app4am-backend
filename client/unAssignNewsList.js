@@ -9,18 +9,20 @@ var NEWSPAPER =
       ,"UDN"       : "聯合新聞網"
       ,"ChinaTime" : "中國時報"
       }
-  , nowDate   = new ReactiveVar(new Date())
+  , now       = new Date()
+  , nowFilter =
+      new ReactiveVar(
+        {"newsTime" :
+            {"$gte" : date.getDayStart()
+            ,"$lte" : date.getDayEnd()
+            }
+        }
+      )
   ;
 Template.unAssignNewsList.helpers(
   {"news" :
       function() {
-        var date    = nowDate.get()
-          , filter  =
-              {"newsTime" :
-                  {"$gte" : date.getDayStart()
-                  ,"$lte" : date.getDayEnd()
-                  }
-              }
+        var filter  = nowFilter.get()
           , options = 
               {"sort"     :
                 {"_id"        : -1
@@ -37,7 +39,37 @@ Template.unAssignNewsList.events(
       function(e) {
         var date = new Date( Date.parse(e.currentTarget.value) );
         Meteor.subscribe("unAssignNews", date);
-        nowDate.set(date);
+        nowFilter.set(
+          {"newsTime" :
+              {"$gte" : date.getDayStart()
+              ,"$lte" : date.getDayEnd()
+              }
+          }
+        );
+      }
+  ,"change input[name=\"search\"]" :
+      function() {
+        var text    = e.currentTarget.value
+          , filter  =
+              {"$or" :
+                  [{"title"   : new RegExp(text)}
+                  ,{"content" : new RegExp(text)}
+                  }
+              }
+          ;
+
+        if (text) {
+          Meteor.subscribe("searchNews", text);
+        }
+        nowFilter.set(filter);
+      }
+  ,"click a.switch" :
+      function() {
+        var $this = $(e.currentTarget)
+          , by    = $(e.currentTarget).attr("data-by")
+          ;
+
+        $this.closest("div.filter").removeClass("byText byDate").addClass( by );
       }
   }
 );

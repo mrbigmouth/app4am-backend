@@ -35,6 +35,22 @@ Meteor.publish("unAssignNews", function(date) {
   return DB.news.find(filter);
 });
 
+Meteor.publish("searchNews", function(text) {
+  var filter =
+        {"$or" :
+            [{"title"   : new RegExp(text)}
+            ,{"content" : new RegExp(text)}
+            }
+        }
+    , options =
+        {"fields" :
+            {"comment" : 0
+            }
+        }
+    ;
+  return DB.news.find(filter);
+});
+
 Meteor.publish("newsByTopic", function(idStr) {
   var topicId = new Mongo.ObjectID(idStr)
     , filter  =
