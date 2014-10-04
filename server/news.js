@@ -18,36 +18,34 @@ DB.news.allow(
 )
 
 
-Meteor.publish("unAssignNews", function(date) {
-  var filter =
-        {"newsTime" :
-            {"$gte" : date.getDayStart()
-            ,"$lte" : date.getDayEnd()
-            }
-        }
-    , options =
-        {"fields" :
-            {"content" : 0
-            ,"comment" : 0
-            }
-        }
-    ;
-  return DB.news.find(filter);
-});
-
-Meteor.publish("searchNews", function(text) {
-  var filter =
-        {"$or" :
-            [{"title"   : new RegExp(text)}
-            ,{"content" : new RegExp(text)}
-            ]
-        }
+Meteor.publish("unAssignNews", function(date, text) {
+  var filter  = {}
     , options =
         {"fields" :
             {"comment" : 0
             }
         }
+    , reg
     ;
+
+  console.log("date", date);
+  console.log("text", text);
+  if (date) {
+    filter.newsTime =
+        {"$gte"     : date.getDayStart()
+        ,"$lte"     : date.getDayEnd()
+        };
+  }
+  if (text) {
+    reg = new RegExp(text);
+    filter.$or =
+        [ {"title"   : reg}
+        , {"content" : reg}
+        ];
+  }
+  else {
+    options.fields.content = 0;
+  }
   return DB.news.find(filter);
 });
 

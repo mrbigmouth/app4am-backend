@@ -13,8 +13,8 @@ var NEWSPAPER =
   , nowFilter =
       new ReactiveVar(
         {"newsTime" :
-            {"$gte" : date.getDayStart()
-            ,"$lte" : date.getDayEnd()
+            {"$gte" : now.getDayStart()
+            ,"$lte" : now.getDayEnd()
             }
         }
       )
@@ -35,41 +35,54 @@ Template.unAssignNewsList.helpers(
   }
 );
 Template.unAssignNewsList.events(
-  {"change input[name=\"newsDate\"]" :
+  {"change input[name]" :
       function(e) {
-        var date = new Date( Date.parse(e.currentTarget.value) );
-        Meteor.subscribe("unAssignNews", date);
-        nowFilter.set(
-          {"newsTime" :
-              {"$gte" : date.getDayStart()
-              ,"$lte" : date.getDayEnd()
-              }
-          }
-        );
-      }
-  ,"change input[name=\"search\"]" :
-      function() {
-        var text    = e.currentTarget.value
-          , filter  =
-              {"$or" :
-                  [{"title"   : new RegExp(text)}
-                  ,{"content" : new RegExp(text)}
-                  ]
-              }
+        var $form   = $(e.currentTarget).closest("form")
+          , $date   = $form.find("[name=\"newsDate\"]")
+          , filter  = {}
+          , text    = $form.find("input[name=\"search\"]").val()
+          , date
+          , reg
           ;
 
         if (text) {
-          Meteor.subscribe("searchNews", text);
+          reg = new RegExp(text);
+          filter.$or =
+              [ {"title"   : reg}
+              , {"content" : reg}
+              ];
         }
+        else {
+          text = false;
+        }
+
+        if ($date.is(":visible")) {
+          date = new Date( Date.parse( $date.val() ) );
+          filter.newsTime =
+              {"$gte"     : date.getDayStart()
+              ,"$lte"     : date.getDayEnd()
+              };
+        }
+        else {
+          date = false
+        }
+
+        Meteor.subscribe("unAssignNews", date, text);
         nowFilter.set(filter);
       }
-  ,"click a.switch" :
-      function() {
+  ,"click div.filterDate a.turn" :
+      function(e) {
         var $this = $(e.currentTarget)
-          , by    = $(e.currentTarget).attr("data-by")
+          , $form = $this.closest("form")
           ;
 
-        $this.closest("div.filter").removeClass("byText byDate").addClass( by );
+        if ($this.hasClass("on")) {
+          $form.find("div.filterDate").removeClass("off").addClass("on");
+        }
+        else {
+          $form.find("div.filterDate").removeClass("on").addClass("off");
+        }
+        $form.find("input[name=\"search\"]").trigger("change");
       }
   }
 );

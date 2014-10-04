@@ -27,18 +27,31 @@ div.wrapper {
     float: right;
   }
 
-  div.buttons {
+  form.buttons {
     text-align: right;
+    margin-bottom: 10px;
   }
 
   div.unAssignNewsList {
-    div.filter.byDate {
-      div.filterByText {
+    div.filterDate.on{
+      span {
+        display: inline;
+      }
+      a.turn.on {
         display: none;
       }
+      a.turn.off {
+        display: inline;
+      }
     }
-    div.filter.byText {
-      div.filterByDate {
+    div.filterDate.off {
+      span {
+        display: none;
+      }
+      a.turn.on {
+        display: inline;
+      }
+      a.turn.off {
         display: none;
       }
     }
@@ -125,6 +138,11 @@ div.wrapper {
     div.eachNews {
       h3 {
         margin: 3px;
+
+        a {
+          font-size: 14px;
+          font-weight: normal;
+        }
       }
     }
   }
