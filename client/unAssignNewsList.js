@@ -13,8 +13,8 @@ var NEWSPAPER =
   , nowFilter =
       new ReactiveVar(
         {"newsTime" :
-            {"$gte" : date.getDayStart()
-            ,"$lte" : date.getDayEnd()
+            {"$gte" : now.getDayStart()
+            ,"$lte" : now.getDayEnd()
             }
         }
       )
