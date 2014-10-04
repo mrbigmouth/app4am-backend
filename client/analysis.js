@@ -414,15 +414,27 @@ Template.eachNews_Analysis.helpers(
       function(newsPaper) {
         return NEWSPAPER[newsPaper];
       }
+  ,"nowTopicId" :
+      function(topic) {
+        return topic._id._str;
+      }
   }
 );
 
 Template.eachNews_Analysis.events(
   {"click a.remove" :
       function(e, ins) {
-        var id = $(e.currentTarget).attr("data-id");
+        var newId   = $(e.currentTarget).attr("data-id")
+          , topicId = $(e.currentTarget).attr("data-topic")
+          ;
 
-        debugger;
+        DB.news.update(
+          new Mongo.ObjectID(newId)
+        , {"$pull" :
+            {"topicId"  : new Mongo.ObjectID(topicId)
+            }
+          }
+        );
       }
   }
 );
