@@ -20,11 +20,18 @@ DB.news.allow(
 
 Meteor.publish("unAssignNews", function(date) {
   var filter =
-      {"newsTime" :
-          {"$gte" : date.getDayStart()
-          ,"$lte" : date.getDayEnd()
-          }
-      }
+        {"newsTime" :
+            {"$gte" : date.getDayStart()
+            ,"$lte" : date.getDayEnd()
+            }
+        }
+    , options =
+        {"fields" :
+            {"content" : 0
+            ,"comment" : 0
+            }
+        }
+    ;
   return DB.news.find(filter);
 });
 
@@ -33,20 +40,35 @@ Meteor.publish("newsByTopic", function(idStr) {
     , filter  =
       {"topicId" : topicId
       }
-  return DB.news.find(filter);
+    , options =
+        {"fields" :
+            {"content" : 0
+            ,"comment" : 0
+            }
+        }
+    ;
+
+  return DB.news.find(filter, options);
 });
 
 Meteor.publish("newsByNewspaperDate", function(newspaper, date) {
-  var filter = {};
+  var filter  = {}
+    , options =
+        {"fields" :
+            {"content" : 0
+            ,"comment" : 0
+            }
+        }
+    ;
+
   if (newspaper) {
     filter.newspaper = newspaper;
   }
   
-  console.log(newspaper);
   filter.newsTime =
     {"$gte" : date.getDayStart()
     ,"$lte" : date.getDayEnd()
     }
 
-  return DB.news.find(filter);
+  return DB.news.find(filter, options);
 });
