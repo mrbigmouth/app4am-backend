@@ -6,8 +6,8 @@ DB.news.allow(
   ,"update" :
       function(userId, doc) {
         DB.news.update(doc._id, {"$set" : {"updateTime" : new Date()}});
-        //return true;
-        return false;
+        return true;
+        //return false;
       }
   ,"remove" :
       function() {
