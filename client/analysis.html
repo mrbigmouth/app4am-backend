@@ -26,7 +26,10 @@
 
 <template name="eachNews_Analysis">
   <div class="eachNews">
-    <h3>{{this.title}}</h3>
+    <h3>
+      {{this.title}}
+      <a href="javascript:;" class="remove" data-id="{{this._id._str}}">從此議題移除此新聞</a>
+    </h3>
     <span class="newsPaper">{{newsPaperName this.newspaper}}</span>
     <span class="time">新聞發布時間：<time>{{showDate this.newsTime}}</time></span>
     <span class="link"><a href="{{this.sourceUrl}}" target="_blank" class="link">原文連結</a></span>

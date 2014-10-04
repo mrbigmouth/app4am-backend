@@ -385,7 +385,7 @@ Template.analysis.helpers(
         var filter      =
               {"topicId" : topicId
               }
-          , options =
+          , options     =
               {"sort"    :
                   {"newsTime"  : -1
                   }
@@ -396,8 +396,9 @@ Template.analysis.helpers(
                   ,"sourceUrl" : 1
                   }
               }
-          , news       = DB.news.find(filter, options)
+          , news        = DB.news.find(filter, options)
           ;
+
         return news;
       }
   }
@@ -412,6 +413,16 @@ Template.eachNews_Analysis.helpers(
   ,"newsPaperName" :
       function(newsPaper) {
         return NEWSPAPER[newsPaper];
+      }
+  }
+);
+
+Template.eachNews_Analysis.events(
+  {"click a.remove" :
+      function(e, ins) {
+        var id = $(e.currentTarget).attr("data-id");
+
+        debugger;
       }
   }
 );
