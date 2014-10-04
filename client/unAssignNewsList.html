@@ -1,14 +1,15 @@
 <template name="unAssignNewsList">
   <div class="unAssignNewsList">
-    <form action="javascript:;" class="buttons">
-      <div style="float:left;">
-        只看關鍵字：<input type="text" name="search" />
-      </div>
+    <div class="buttons filter byDate">
       <div class="filterByDate">
         新聞日期：<input type="date" name="newsDate" />
         <a href="javascript:;" class="switch" data-by="byText">輸入關鍵字搜索</a>
       </div>
-    </form>
+      <div class="filterByText">
+        搜索：<input type="date" name="search" />
+        <a href="javascript:;" class="switch" data-by="byDate">依日期瀏覽</a>
+      </div>
+    </div>
     {{#each news}}
       {{> eachNews}}
     {{/each}}
