@@ -5,10 +5,7 @@
 
 standard-app-packages
 accounts-base
-accounts-facebook
-accounts-google
 accounts-ui
 stylus
 iron:router
 reactive-var
-

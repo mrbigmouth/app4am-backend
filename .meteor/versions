@@ -1,7 +1,4 @@
 accounts-base@1.1.1
-accounts-facebook@1.0.1
-accounts-google@1.0.1
-accounts-oauth@1.1.1
 accounts-ui-unstyled@1.1.2
 accounts-ui@1.1.1
 application-configuration@1.0.2
@@ -18,11 +15,9 @@ ctl@1.0.1
 ddp@1.0.9
 deps@1.0.4
 ejson@1.0.3
-facebook@1.1.0
 fastclick@1.0.0
 follower-livedata@1.0.1
 geojson-utils@1.0.0
-google@1.1.0
 html-tools@1.0.1
 htmljs@1.0.1
 http@1.0.6
@@ -43,8 +38,6 @@ minifiers@1.1.0
 minimongo@1.0.3
 mobile-status-bar@1.0.0
 mongo@1.0.6
-oauth2@1.1.0
-oauth@1.1.0
 observe-sequence@1.0.2
 ordered-dict@1.0.0
 random@1.0.0
