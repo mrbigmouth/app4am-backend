@@ -1,3 +1,29 @@
+//check users
+var checkUserIsBackend =
+      function(userId) {
+        var user;
+
+        if (! userId) {
+          return true;
+        }
+        user = Meteor.users.findOne(userId);
+
+        if (! user) {
+          return true;
+        }
+
+        if (! user.isBackend) {
+          return true;
+        }
+
+        return false;
+      };
+DB.topic.deny(
+  {"insert" : checkUserIsBackend
+  ,"update" : checkUserIsBackend
+  ,"remove" : checkUserIsBackend
+  }
+);
 DB.topic.allow(
   {'insert' :
       function(userId, doc) {
