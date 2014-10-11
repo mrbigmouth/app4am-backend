@@ -4,6 +4,10 @@ Meteor.methods(
       function(userName) {
         var user;
 
+        if (! this.userId) {
+          return false;
+        }
+
         //已有其他backend user時, 檢查使用者是否backend user
         if (Meteor.users.find({"isBackend" : true}).count() > 0) {
           user = Meteor.users.findOne(this.userId);
@@ -20,6 +24,9 @@ Meteor.methods(
           );
         }
 
+        if (! userName) {
+          return true;
+        }
 
         user = Meteor.users.findOne({"username" : userName});
         if (user) {
@@ -28,7 +35,9 @@ Meteor.methods(
           , {"$set" : {"isBackend" : true}
             }
           );
+          return true;
         }
+        return false;
       }
   }
 );
