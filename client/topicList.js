@@ -100,16 +100,13 @@ Template.eachTopic.helpers(
           return "";
         }
       }
-  ,"textHeight"   :
+  ,"countLine"    :
       function(text) {
-        var height = "height:16px;"
-          , line
-          ;
+        var line = 1;
         if (text) {
           line = text.split("\n").length;
-          height = "height:" + (line * 16) + "px";
         }
-        return height;
+        return line;
       }
   ,"isSorted"     :
       function(sort) {
@@ -203,6 +200,15 @@ Template.eachTopic.events(
           DB.topic.update(thisId, {"$inc" : {"sort" : -1}});
           DB.topic.update(prev._id, {"$inc" : {"sort" : 1}});
         }
+      }
+  //自動增行
+  ,"keyup form.editor textarea" :
+      function(e) {
+        var textarea = e.currentTarget
+          , text     = textarea.value
+          , line     = text.split("\n").length
+          ;
+        $(textarea).attr("rows", line);
       }
   //取消
   ,"click form.editor input[type=\"button\"]" :
