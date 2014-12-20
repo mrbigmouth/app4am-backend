@@ -1,6 +1,10 @@
 <template name="topicList">
   <div class="topicList">
     <form action="javascript:;" class="buttons">
+      <label style="float: left;">
+        <span>篩選議題：</span>
+        <input type="text" name="filter" />
+      </label>
       <button>新增議題</button>
     </form>
     {{#each sortedTopic}}
@@ -46,7 +50,7 @@
       <div class="form-control">
         <label>
           <span>議題描述：</span>
-          <textarea class="input" name="description">{{this.description}}</textarea>
+          <textarea class="input" name="description" style="{{textHeight thisDescription}}">{{this.description}}</textarea>
         </label>
       </div>
       <div class="form-control">

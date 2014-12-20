@@ -1,13 +1,27 @@
 Meteor.subscribe("topic");
 
+var nowFilter = new ReactiveVar({});
+
 Template.topicList.helpers(
   {"sortedTopic"  :
       function() {
-        return DB.topic.find({"sort" : {"$ne" : null}}, {"sort" : {"sort" : 1} });
+        var filter      = 
+              _.defaults(
+                {"sort" : {"$ne" : null}}
+              , nowFilter.get()
+              );
+          ;
+        return DB.topic.find(filter, {"sort" : {"sort" : 1} });
       }
   ,"unSortTopic"  :
       function() {
-        return DB.topic.find({"sort" : null}, {"sort" : {"latestTime" : -1} });
+        var filter      = 
+              _.defaults(
+                {"sort" : null}
+              , nowFilter.get()
+              );
+          ;
+        return DB.topic.find(filter, {"sort" : {"latestTime" : -1} });
       }
   }
 );
@@ -26,6 +40,25 @@ Template.topicList.events(
         }
         doc.topicTagSet = [];
         Meteor.call("dbInsert", "topic", doc);
+      }
+  ,"keyup input[name=\"filter\"]" :
+      function(e) {
+        var value = e.currentTarget.value
+          , reg
+          ;
+        if (value) {
+          reg = new RegExp(value);
+          nowFilter.set(
+            {"$or" :
+                [{"name"         : reg}
+                ,{"topicTagSet"  : reg}
+                ]
+            }
+          );
+        }
+        else {
+          nowFilter.set({});
+        }
       }
   }
 );
@@ -66,6 +99,17 @@ Template.eachTopic.helpers(
         else {
           return "";
         }
+      }
+  ,"textHeight"   :
+      function(text) {
+        var height = "height:16px;"
+          , line
+          ;
+        if (text) {
+          line = text.split("\n").length;
+          height = "height:" + (line * 16) + "px";
+        }
+        return height;
       }
   ,"isSorted"     :
       function(sort) {
