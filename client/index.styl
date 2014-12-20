@@ -126,10 +126,23 @@ div.wrapper {
       span.time {
         float: right;
       }
+
+      form.editor {
+        display: none;
+      }
     }
 
     div.eachTopic.selected {
       border: 1px solid #AAAAAA;
+    }
+
+    div.eachTopic.editing {
+      div.display {
+        display: none;
+      }
+      form.editor {
+        display: block;
+      }
     }
   }
 

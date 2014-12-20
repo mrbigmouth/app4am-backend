@@ -24,26 +24,30 @@ Template.topicList.events(
         if (! doc.name) {
           return false;
         }
-        tags = prompt("請輸入關鍵字組（以,分隔）：");
-        if (! tags) {
-          return tags = "";
-        }
-        doc.topicTagSet = tags.split(",");
+        doc.topicTagSet = [];
         Meteor.call("dbInsert", "topic", doc);
       }
   }
 );
 
 Template.eachTopic.helpers(
-  {"list"     :
+  {"list"         :
       function(list) {
         return list.join("、");
       }
-  ,"showDate" :
+  ,"comma"        :
+      function(list) {
+        return list.join(",");
+      }
+  ,"showDate"     :
+      function(date) {
+        return date.format("yyyy-MM-dd");
+      }
+  ,"showDateTime" :
       function(date) {
         return date.format("yyyy/MM/dd HH:mm");
       }
-  ,"isSorted" :
+  ,"isSorted"     :
       function(sort) {
         return ! (sort === null);
       }
@@ -93,22 +97,7 @@ Template.eachTopic.events(
   ,"click a.edit" :
       function(e, ins) {
         e.stopPropagation();
-        var thisId = ins.data._id
-          , prompt = window.prompt
-          , doc    = {}
-          , tags
-          ;
-
-        doc.name = prompt("請修改議題名稱：", ins.data.name);
-        if (! doc.name) {
-          return false;
-        }
-        tags = prompt("請修改關鍵字組（以,分隔）：", ins.data.topicTagSet.join(","));
-        if (! tags) {
-          return false;
-        }
-        doc.topicTagSet = tags.split(",");
-        DB.topic.update(thisId, {"$set" : doc});
+        $(e.currentTarget).closest("div.eachTopic").addClass("editing");
       }
   ,"click a.toSort" :
       function(e, ins) {
@@ -150,6 +139,38 @@ Template.eachTopic.events(
           DB.topic.update(thisId, {"$inc" : {"sort" : -1}});
           DB.topic.update(prev._id, {"$inc" : {"sort" : 1}});
         }
+      }
+  //取消
+  ,"click form.editor input[type=\"button\"]" :
+      function(e) {
+        debugger;
+        $(e.currentTarget)
+          .closest("form")
+            .trigger("reset")
+            .closest("div.eachTopic")
+              .removeClass("editing");
+      }
+  //送出
+  ,"click form.editor submit" :
+      function(e, ins) {
+        debugger;
+        var thisId = ins.data._id
+          , form   = e.currentTarget
+          , doc    =
+              {"name"         : form.name.value
+              ,"topicTagSet"  : _.compact( form.topicTagSet.value.split(",") )
+              ,"description"  : form.description.value
+              ,"startDate"    : form.startDate.value
+              ,"endDate"      : form.endDate.value
+              }
+          ;
+        DB.topic.update(
+          thisId
+        , {"$set" : doc}
+        , function() {
+            $(form).closest("div.eachTopic").removeClass("editing");
+          }
+        );
       }
   }
 )

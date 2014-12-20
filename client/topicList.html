@@ -14,19 +14,59 @@
 
 <template name="eachTopic">
   <div class="{{#if isSorted this.sort}}eachTopic sorted{{else}}eachTopic{{/if}}" data-id="{{this._id._str}}">
-    <a href="javascript:;" class="edit">修改</a>
-    <a href="/topic/{{this._id._str}}">分析</a>
-    {{#if isSorted this.sort}}
-      <a href="javascript:;" class="unSort">隱藏</a>
-      <a href="javascript:;" class="sortMinus">上移</a>
-      <a href="javascript:;" class="sortAdd">下移</a>
-    {{else}}
-      <a href="javascript:;" class="toSort">發布</a>
-    {{/if}}
-    <span class="time">修改時間：<time>{{showDate this.latestTime}}</time></span>
-    <div class="name" title="{{this.name}}">
-      {{this.name}}
+    <div class="display">
+      <a href="javascript:;" class="edit">修改</a>
+      <a href="/topic/{{this._id._str}}">分析</a>
+      {{#if isSorted this.sort}}
+        <a href="javascript:;" class="unSort">隱藏</a>
+        <a href="javascript:;" class="sortMinus">上移</a>
+        <a href="javascript:;" class="sortAdd">下移</a>
+      {{else}}
+        <a href="javascript:;" class="toSort">發布</a>
+      {{/if}}
+      <span class="time">修改時間：<time>{{showDateTime this.latestTime}}</time></span>
+      <div class="name" title="{{this.name}}">
+        {{this.name}}
+      </div>
+      <div class="tags" title="{{list this.topicTagSet}}">關鍵字：{{list this.topicTagSet}}</div>
     </div>
-    <div class="tags" title="{{list this.topicTagSet}}">關鍵字：{{list this.topicTagSet}}</div>
+    <form action="javascript:;" class="editor">
+      <div class="form-control">
+        <label>
+          名稱：
+          <input type="text" name="name" value="{{this.name}}" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label>
+          關鍵字：
+          <input type="text" name="topicTagSet" value="{{comma this.topicTagSet}}" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label>
+          議題描述：
+          <br />
+          <textarea name="description">{{this.description}}</textarea>
+        </label>
+      </div>
+      <div class="form-control">
+        <label>
+          起始日期：
+          <input type="date" name="startDate" value="{{showDate this.startDate}}" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label>
+          結束日期：
+          <input type="date" name="endDate" value="{{showDate this.endDate}}" />
+        </label>
+      </div>
+      <div class="form-control" style="text-align: right;">
+        <input type="button" value="取消" />
+        <input type="reset" value="重設" />
+        <input type="submit" value="送出" />
+      </div>
+    </form>
   </div>
 </template>
