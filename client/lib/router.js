@@ -2,12 +2,10 @@ Router.map(function() {
   //首頁
   this.route(
     "assign"
-  , {"path"   : "/"
-    ,"waitOn" :
+  , {"path"           : "/"
+    ,"subscriptions"  :
         function() {
-          return [
-            Meteor.subscribe("unAssignNews", new Date())
-          ]
+          return Meteor.subscribe("unAssignNews", new Date());
         }
     }
   );
@@ -15,14 +13,12 @@ Router.map(function() {
   //分析
   this.route(
     "analysis"
-  , {"path"   : "/topic/:_id"
-    ,"waitOn" :
+  , {"path"           : "/topic/:_id"
+    ,"subscriptions"  :
         function() {
-          return [
-            Meteor.subscribe("newsByTopic", this.params._id)
-          ]
+          return Meteor.subscribe("newsByTopic", this.params._id);
         }
-    ,"data"   :
+    ,"data"           :
         function() {
           return DB.topic.findOne(new Meteor.Collection.ObjectID(this.params._id))
         }

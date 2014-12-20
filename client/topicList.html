@@ -33,33 +33,32 @@
     <form action="javascript:;" class="editor">
       <div class="form-control">
         <label>
-          名稱：
-          <input type="text" name="name" value="{{this.name}}" />
+          <span>名稱：</span>
+          <input class="input" type="text" name="name" value="{{this.name}}" />
         </label>
       </div>
       <div class="form-control">
         <label>
-          關鍵字：
-          <input type="text" name="topicTagSet" value="{{comma this.topicTagSet}}" />
+          <span>關鍵字：</span>
+          <input class="input" type="text" name="topicTagSet" value="{{comma this.topicTagSet}}" />
         </label>
       </div>
       <div class="form-control">
         <label>
-          議題描述：
-          <br />
-          <textarea name="description">{{this.description}}</textarea>
+          <span>議題描述：</span>
+          <textarea class="input" name="description">{{this.description}}</textarea>
         </label>
       </div>
       <div class="form-control">
         <label>
-          起始日期：
-          <input type="date" name="startDate" value="{{showDate this.startDate}}" />
+          <span>起始日期：</span>
+          <input class="date" type="date" name="startDate" value="{{showDate this.startDate}}" />
         </label>
       </div>
       <div class="form-control">
         <label>
-          結束日期：
-          <input type="date" name="endDate" value="{{showDate this.endDate}}" />
+          <span>結束日期：</span>
+          <input class="date" type="date" name="endDate" value="{{showDate this.endDate}}" />
         </label>
       </div>
       <div class="form-control" style="text-align: right;">

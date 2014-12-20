@@ -33,19 +33,39 @@ Template.topicList.events(
 Template.eachTopic.helpers(
   {"list"         :
       function(list) {
-        return list.join("、");
+        if (list) {
+          return list.join("、");
+        }
+        else {
+          return "";
+        }
       }
   ,"comma"        :
       function(list) {
-        return list.join(",");
+        if (list) {
+          return list.join(",");
+        }
+        else {
+          return "";
+        }
       }
   ,"showDate"     :
       function(date) {
-        return date.format("yyyy-MM-dd");
+        if (date) {
+          return date.format("yyyy-MM-dd");
+        }
+        else {
+          return "";
+        }
       }
   ,"showDateTime" :
       function(date) {
-        return date.format("yyyy/MM/dd HH:mm");
+        if (date) {
+          return date.format("yyyy/MM/dd HH:mm");
+        }
+        else {
+          return "";
+        }
       }
   ,"isSorted"     :
       function(sort) {
@@ -143,25 +163,40 @@ Template.eachTopic.events(
   //取消
   ,"click form.editor input[type=\"button\"]" :
       function(e) {
-        debugger;
         $(e.currentTarget)
           .closest("form")
             .trigger("reset")
             .closest("div.eachTopic")
               .removeClass("editing");
       }
-  //送出
-  ,"click form.editor submit" :
+  //重設
+  ,"reset form.editor" :
       function(e, ins) {
-        debugger;
+        var data = ins.data
+          , form = e.currentTarget
+          ;
+        form.name.value = data.name;
+        form.topicTagSet.value = data.topicTagSet.join(",");
+        form.description.value = data.description || "";
+        if (data.startDate) {
+          form.startDate.value = data.startDate.format("yyyy-MM-dd");
+        }
+        if (data.endDate) {
+          form.endDate.value = data.endDate.format("yyyy-MM-dd");
+        }
+        e.preventDefault();
+      }
+  //送出
+  ,"submit form.editor" :
+      function(e, ins) {
         var thisId = ins.data._id
           , form   = e.currentTarget
           , doc    =
               {"name"         : form.name.value
               ,"topicTagSet"  : _.compact( form.topicTagSet.value.split(",") )
               ,"description"  : form.description.value
-              ,"startDate"    : form.startDate.value
-              ,"endDate"      : form.endDate.value
+              ,"startDate"    : new Date( Date.parse(form.startDate.value) )
+              ,"endDate"      : new Date( Date.parse(form.endDate.value) )
               }
           ;
         DB.topic.update(

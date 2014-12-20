@@ -4,7 +4,7 @@ var checkUserIsBackend =
         var user;
 
         if (! userId) {
-          return true;
+          return false;
         }
         user = Meteor.users.findOne(userId);
 
