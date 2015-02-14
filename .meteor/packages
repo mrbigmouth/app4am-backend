@@ -13,3 +13,4 @@ underscore
 meteorhacks:fast-render
 meteorhacks:subs-manager
 accounts-ui
+multiply:iron-router-progress

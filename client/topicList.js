@@ -1,4 +1,4 @@
-Meteor.subscribe("topic");
+SUBSCRIBE.subscribe("topic");
 
 var nowFilter = new ReactiveVar({});
 
