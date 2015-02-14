@@ -2,18 +2,21 @@
   <title>新聞啄木鳥-後臺系統</title>
 </head>
 
-<template name="assign">
-  <div class="wrapper">
+<template name="layout">
+  <header>
     <h1>
       <img src="logo.png" title="新聞啄木鳥後臺系統" />
-      <a href="javascript:" style="float: right;display: inline-block;margin:5px;">
-        <img src="setting.png" title="設定" />
-      </a>
-      <span style="float: right;">
-        {{> loginButtons align="right"}}
-      </span>
     </h1>
-    <hr />
+    <a href="javascript:;" class="login">
+      <img src="setting.png" title="設定" />
+      {{> loginButtons align="right"}}
+    </a>
+  </header>
+  {{> yield}}
+</template>
+
+<template name="assign">
+  <div class="wrapper">
     <div class="left">
       {{> unAssignNewsList}}
     </div>

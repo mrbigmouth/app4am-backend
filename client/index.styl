@@ -1,6 +1,41 @@
+body {
+  margin: 0;
+  background: #383B35;
+  color: white;
+  
+  a {
+    color: #F2A500;
+  }
+  a:hover {
+    font-weight: bold;
+    color: #FEC956;
+  }
+}
+
+header {
+  background: #901c0a;
+  margin: 0 0 10px 0;
+  padding: 0 0 0 10px;
+  text-align: left;
+  position: relative;
+  height: 64px;
+  
+  h1 {
+    padding-top: 8px;
+    margin: 0;
+  }
+  
+  a.login {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+  }
+}
+
 div.wrapper {
-  margin: 10px;
-  width: 100%;
+  margin: 10px auto 10px auto;
+  min-width: 1024px;
+  width: 95%;
   height: 90vh;
   font-size: 14px;
 
@@ -57,9 +92,16 @@ div.wrapper {
     }
 
     div.eachNews {
+      background: #434740;
+      padding: 6px;
       cursor: pointer;
       border: 1px dashed #DDDDDD;
-      margin-top: 3px;
+      margin-top: 4px;
+      border-radius: 5px;
+
+      div {
+        margin-bottom: 5px;
+      }
 
       div.title {
         white-space: nowrap;
@@ -86,7 +128,7 @@ div.wrapper {
     }
 
     div.eachNews.selected {
-      border: 1px solid #AAAAAA;
+      border: 2px solid #F2A500;
 
       div.data {
         display: block;
@@ -96,9 +138,16 @@ div.wrapper {
 
   div.topicList {
     div.eachTopic {
+      background: #434740;
+      padding: 6px;
       cursor: pointer;
       border: 1px dashed #DDDDDD;
-      margin-top: 3px;
+      margin-top: 4px;
+      border-radius: 5px;
+
+      div {
+        margin-bottom: 5px;
+      }
 
       div.name {
         white-space: nowrap;
@@ -146,7 +195,7 @@ div.wrapper {
     }
 
     div.eachTopic.selected {
-      border: 1px solid #AAAAAA;
+      border: 2px solid #F2A500;
     }
 
     div.eachTopic.editing {
