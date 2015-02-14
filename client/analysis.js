@@ -194,7 +194,7 @@ var NEWSPAPER     =
 
 
                   $("#analysisPieChart").empty().html("<div style=\"text-align:center;margin-top:100px;font-size:22px;\">載入中。。。</div>");
-                  SUBSCRIBE.subscribe("newsByNewspaperDate", newspaper === "total" ? "" : newspaper, date);
+                  Meteor.subscribe("newsByNewspaperDate", newspaper === "total" ? "" : newspaper, date);
                   if (pieTracker) {
                     pieTracker.stop();
                   }
@@ -339,7 +339,7 @@ Template.analysis.helpers(
         //訂閱議題新聞期間的所有新聞
         tempDate = new Date(newestDate);
         while (tempDate.getTime() >= oldestDate.getTime()) {
-          SUBSCRIBE.subscribe("unAssignNews", tempDate);
+          Meteor.subscribe("unAssignNews", tempDate);
           tempDate.setDate( tempDate.getDate() - 1 );
         }
 

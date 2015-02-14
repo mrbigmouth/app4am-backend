@@ -67,7 +67,7 @@ Template.unAssignNewsList.events(
           date = false
         }
 
-        SUBSCRIBE.subscribe("unAssignNews", date, text);
+        Meteor.subscribe("unAssignNews", date, text);
         nowFilter.set(filter);
       }
   ,"click div.filterDate a.turn" :
