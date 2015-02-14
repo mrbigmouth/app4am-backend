@@ -70,8 +70,6 @@ Meteor.publish("unAssignNews", function(date, text) {
   else {
     options.fields.content = 0;
   }
-  console.log(filter);
-  console.log(DB.news.find(filter).count());
   return DB.news.find(filter);
 });
 
