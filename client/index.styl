@@ -56,10 +56,26 @@ div.wrapper {
     overflow: auto;
   }
   div.left {
+    position: relative;
     float: left;
+
+    img.loading {
+      position: absolute;
+      top: 47%;
+      left: 47%;
+      z-index: 10;
+    }
   }
   div.right {
+    position: relative;
     float: right;
+
+    img.loading {
+      position: absolute;
+      top: 47%;
+      left: 47%;
+      z-index: 10;
+    }
   }
 
   form.buttons {
@@ -134,6 +150,7 @@ div.wrapper {
         display: block;
       }
     }
+
   }
 
   div.topicList {

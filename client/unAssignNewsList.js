@@ -36,7 +36,7 @@ Template.unAssignNewsList.helpers(
 );
 Template.unAssignNewsList.events(
   {"change input[name]" :
-      function(e) {
+      function(e, ins) {
         var $form   = $(e.currentTarget).closest("form")
           , $date   = $form.find("[name=\"newsDate\"]")
           , filter  = {}
@@ -67,7 +67,15 @@ Template.unAssignNewsList.events(
           date = false
         }
 
-        Meteor.subscribe("unAssignNews", date, text);
+        ins.$("img.loading").show();
+        Meteor.subscribe(
+          "unAssignNews"
+        , date
+        , text
+        , function() {
+            ins.$("img.loading").hide();
+          }
+        );
         nowFilter.set(filter);
       }
   ,"click div.filterDate a.turn" :
