@@ -67,13 +67,13 @@ Template.unAssignNewsList.events(
           date = false
         }
 
-        ins.$("img.loading").show();
+        $("#news-loading").show();
         Meteor.subscribe(
           "unAssignNews"
         , date
         , text
         , function() {
-            ins.$("img.loading").hide();
+            $("#news-loading").hide();
           }
         );
         nowFilter.set(filter);

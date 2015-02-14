@@ -58,23 +58,28 @@ div.wrapper {
   div.left {
     position: relative;
     float: left;
-
-    img.loading {
-      position: absolute;
-      top: 47%;
-      left: 47%;
-      z-index: 10;
-    }
   }
   div.right {
     position: relative;
     float: right;
+  }
 
-    img.loading {
-      position: absolute;
-      top: 47%;
-      left: 47%;
-      z-index: 10;
+  #news-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+
+    div {
+      width: 300px;
+      margin: 0 auto 0 auto;
+      padding-top: 30%;
+
+      img {
+        width: 300px;
+      }
     }
   }
 
